@@ -7,10 +7,11 @@ using UnityEditor;
 namespace GlassBlower.Scripts
 {
     [ExecuteInEditMode]
-    public class Glass : MonoBehaviour
+    public class GlassRenderer : MonoBehaviour
     {
         [SerializeField] private float _length;
         [SerializeField] private float _width;
+        [SerializeField] private float _minWidth;
         [SerializeField] private int _segmentsCount;
 
         [SerializeField] private LineRenderer _renderer;
@@ -22,6 +23,46 @@ namespace GlassBlower.Scripts
         private int[] _tris;
 
         private Mesh _mesh;
+
+        public void Bend(Vector3 position, float radius)
+        {
+            Vector3 localPosition = transform.InverseTransformPoint(position);
+            float localRadius = transform.InverseTransformVector(Vector3.one * radius).y;
+
+            if (!_mesh.bounds.Intersects(new Bounds(localPosition, Vector3.one * localRadius)))
+                return;
+
+            var pointsLength = _vertices.Length / 2;
+
+            for (int i = 0; i < pointsLength; i++)
+            {
+                var index = i * 2;
+
+                Vector2 difference = _vertices[index] - localPosition;
+                float distance = difference.magnitude;
+
+                if (distance > localRadius)
+                    continue;
+
+                //We care only about vertical component during bent
+                float impact = localRadius * Mathf.Abs(difference.y) * (1 - MathUtils.SmoothStep(0, localRadius, distance));
+
+                Vector3 vertexPosition = _vertices[index] - Vector3.up * impact;
+                float width = Mathf.Max(_minWidth, vertexPosition.y);
+
+                _vertices[index] = new Vector3(vertexPosition.x, width, vertexPosition.z);
+                _vertices[index + 1] = new Vector3(vertexPosition.x, -width, vertexPosition.z);
+            }
+
+            _mesh.vertices = _vertices;
+            _mesh.RecalculateBounds();
+        }
+
+        private void OnEnable()
+        {
+            InitMesh();
+            GenerateMesh();
+        }
 
         private void OnValidate()
         {
@@ -57,8 +98,6 @@ namespace GlassBlower.Scripts
 
         private void GenerateMesh()
         {
-            InitMesh();
-
             int pointsCount = _segmentsCount + 2;
 
             _vertices = new Vector3[pointsCount * 2];
@@ -89,7 +128,7 @@ namespace GlassBlower.Scripts
             var tris = GetTris(pointsCount, 0);
 
             _mesh.Clear();
-            _mesh.subMeshCount = 2;
+            _mesh.subMeshCount = 1;
             _mesh.SetVertices(_vertices);
             _mesh.SetUVs(0, _uvs);
             _mesh.SetTriangles(tris, 0);
@@ -105,7 +144,6 @@ namespace GlassBlower.Scripts
 
             _mesh.MarkDynamic();
             _mesh.hideFlags = HideFlags.DontSaveInEditor;
-
             _meshFilter.sharedMesh = _mesh;
         }
 
