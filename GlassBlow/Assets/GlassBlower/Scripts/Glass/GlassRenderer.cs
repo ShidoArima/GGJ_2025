@@ -1,10 +1,8 @@
+using System;
+using UnityEditor;
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-namespace GlassBlower.Scripts
+namespace GlassBlower.Scripts.Glass
 {
     [ExecuteInEditMode]
     public class GlassRenderer : MonoBehaviour
@@ -13,24 +11,25 @@ namespace GlassBlower.Scripts
         [SerializeField] private float _width;
         [SerializeField] private float _minWidth;
         [SerializeField] private int _segmentsCount;
-
-        [SerializeField] private LineRenderer _renderer;
         [SerializeField] private MeshFilter _meshFilter;
 
-        private Vector3[] _points;
+        [SerializeField] private AnimationCurve _bendCurve;
+        [SerializeField] [Range(0, 1)] private float _bendRatio;
+
+        //We need center points to get expand position easier
+        private Vector3[] _centerPoints;
+
         private Vector3[] _vertices;
         private Vector2[] _uvs;
         private int[] _tris;
 
         private Mesh _mesh;
+        private bool _hasMesh;
 
         public void Bend(Vector3 position, float radius)
         {
             Vector3 localPosition = transform.InverseTransformPoint(position);
             float localRadius = transform.InverseTransformVector(Vector3.one * radius).y;
-
-            if (!_mesh.bounds.Intersects(new Bounds(localPosition, Vector3.one * localRadius)))
-                return;
 
             var pointsLength = _vertices.Length / 2;
 
@@ -38,20 +37,69 @@ namespace GlassBlower.Scripts
             {
                 var index = i * 2;
 
-                Vector2 difference = _vertices[index] - localPosition;
-                float distance = difference.magnitude;
+                Vector2 upDir = _vertices[index] - localPosition;
+                Vector2 downDir = _vertices[index + 1] - localPosition;
+                float distance = Mathf.Sqrt(Mathf.Min(upDir.sqrMagnitude, downDir.sqrMagnitude));
 
                 if (distance > localRadius)
                     continue;
 
-                //We care only about vertical component during bent
-                float impact = localRadius * Mathf.Abs(difference.y) * (1 - MathUtils.SmoothStep(0, localRadius, distance));
+                float normalImpact = 1 - distance / localRadius;
+                float impact = (distance - localRadius) * _bendRatio * _bendCurve.Evaluate(normalImpact);
+                Vector3 vertexPosition = _vertices[index] + Vector3.up * impact;
+                vertexPosition.y = Mathf.Max(_minWidth, vertexPosition.y);
 
-                Vector3 vertexPosition = _vertices[index] - Vector3.up * impact;
-                float width = Mathf.Max(_minWidth, vertexPosition.y);
+                _vertices[index] = new Vector3(vertexPosition.x, vertexPosition.y, vertexPosition.z);
+                _vertices[index + 1] = new Vector3(vertexPosition.x, -vertexPosition.y, vertexPosition.z);
+            }
 
-                _vertices[index] = new Vector3(vertexPosition.x, width, vertexPosition.z);
-                _vertices[index + 1] = new Vector3(vertexPosition.x, -width, vertexPosition.z);
+            _mesh.vertices = _vertices;
+            _mesh.RecalculateBounds();
+        }
+
+        public Vector3 GetCenter(Vector3 position)
+        {
+            Vector3 localPosition = transform.InverseTransformPoint(position);
+
+            //Get center of expand
+            float minSqrMag = Single.PositiveInfinity;
+            Vector3 center = Vector3.zero;
+            for (int i = 0; i < _centerPoints.Length; i++)
+            {
+                var sqrMag = (localPosition - _centerPoints[i]).sqrMagnitude;
+                if (minSqrMag > sqrMag)
+                {
+                    minSqrMag = sqrMag;
+                    center = _centerPoints[i];
+                }
+            }
+
+            return transform.TransformPoint(center);
+        }
+
+        public void Expand(Vector3 position, float radius)
+        {
+            Vector3 localPosition = transform.InverseTransformPoint(position);
+            float localRadius = transform.InverseTransformVector(Vector3.one * radius).y;
+
+            //Expand
+            for (int i = 0; i < _centerPoints.Length; i++)
+            {
+                var index = i * 2;
+
+                Vector2 direction = _vertices[index] - localPosition;
+                float distance = direction.magnitude;
+
+                if (distance > radius)
+                    continue;
+
+                float normalImpact = 1 - distance / localRadius;
+                float impact = (distance - radius) * _bendRatio;
+                Vector3 vertexPosition = _vertices[index] - Vector3.up * impact * _bendCurve.Evaluate(normalImpact);
+                vertexPosition.y = Mathf.Max(_minWidth, vertexPosition.y);
+
+                _vertices[index] = new Vector3(vertexPosition.x, vertexPosition.y, vertexPosition.z);
+                _vertices[index + 1] = new Vector3(vertexPosition.x, -vertexPosition.y, vertexPosition.z);
             }
 
             _mesh.vertices = _vertices;
@@ -66,40 +114,22 @@ namespace GlassBlower.Scripts
 
         private void OnValidate()
         {
-            GenerateLinePoints();
-            GenerateMesh();
-
 #if UNITY_EDITOR
+            GenerateMesh();
             EditorUtility.SetDirty(this);
 #endif
         }
 
-        private void GenerateLinePoints()
-        {
-            int pointsCount = _segmentsCount + 2;
-            _points = new Vector3[pointsCount];
-
-            float delta = _length / (pointsCount - 1);
-            float offset = 0;
-
-            for (int i = 0; i < pointsCount; i++)
-            {
-                _points[i] = offset * Vector3.right;
-                offset += delta;
-            }
-
-            if (_renderer == null)
-                return;
-
-            _renderer.widthMultiplier = _width;
-            _renderer.positionCount = pointsCount;
-            _renderer.SetPositions(_points);
-        }
-
         private void GenerateMesh()
         {
+            if (!_hasMesh)
+            {
+                return;
+            }
+
             int pointsCount = _segmentsCount + 2;
 
+            _centerPoints = new Vector3[pointsCount];
             _vertices = new Vector3[pointsCount * 2];
             _uvs = new Vector2[pointsCount * 2];
 
@@ -112,8 +142,9 @@ namespace GlassBlower.Scripts
 
                 //Generate vertices
                 Vector3 horizontal = offset * Vector3.right;
-                Vector3 vertical = Vector3.up * _width;
+                Vector3 vertical = Vector3.up * Mathf.Max(_minWidth, _width);
 
+                _centerPoints[i] = horizontal;
                 _vertices[index] = horizontal + vertical;
                 _vertices[index + 1] = horizontal - vertical;
 
@@ -145,6 +176,7 @@ namespace GlassBlower.Scripts
             _mesh.MarkDynamic();
             _mesh.hideFlags = HideFlags.DontSaveInEditor;
             _meshFilter.sharedMesh = _mesh;
+            _hasMesh = true;
         }
 
         private int[] GetTris(int size, int offset)
