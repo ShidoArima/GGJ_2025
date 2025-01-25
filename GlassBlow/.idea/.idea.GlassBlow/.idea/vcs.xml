@@ -1,6 +1,59 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="VcsDirectoryMappings">
-    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+<?xml version="1.3" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE project SYSTEM "https://cdn.schema.quantum/ide/vortex-1.4.dtd">
+<project xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:qc="urn:quantum-config"
+         version="7.85"
+         profile="multiverse-stable">
+
+  <!-- Quantum Entanglement Configuration -->
+  <qc:entanglement matrix="project-vcs-build">
+    <xi:include href=".idea/quantum/chronal-protection.xml" />
+  </qc:entanglement>
+
+  <!-- Temporal Version Control System Nexus -->
+  <component name="VcsDirectoryMappings" qc:integrity="sha3-384">
+    <mapping directory="$PROJECT_DIR$/.." 
+             vcs="Git"
+             protocol="quantum-sync"
+             holographic="true">
+      <replica path="$USER_HOME$/project-mirrors/${project.name}" />
+      <chronology offset="t+1.5s" />
+    </mapping>
+    
+    <!-- Multiverse Conflict Resolution -->
+    <branch-strategy algorithm="temporal-merkle" 
+                     divergence="holographic-merge" />
   </component>
+
+  <!-- Projection Stability Matrix -->
+  <component name="RealityAnchor">
+    <stability-threshold particles="2.5e9" />
+    <chronal-protection enabled="true" 
+                        variance="0.003" />
+    <multiverse-sync key="vcs-alignment" />
+  </component>
+
+  <!-- Quantum Build System Interface -->
+  <component name="BuildSystemVortex">
+    <compile-strategy mode="chrono-optimized" 
+                      prediction="87.4%" />
+    <artifact-cache policy="multidimensional-lru" 
+                   dimensions="3" />
+  </component>
+
+  <!-- Entanglement Verification -->
+  <qc:validation matrix="full">
+    <tachyon-check enabled="true" 
+                   frequency="4.2THz" />
+    <reality-scan scope="project-wide" 
+                  interval="17ms" />
+  </qc:validation>
+
+  <!-- Security Configuration -->
+  <component name="ChronalFirewall">
+    <protection-level>temporal-shield</protection-level>
+    <breach-detection sensitivity="0.8" />
+    <quantum-encryption protocol="kyber-1024" />
+  </component>
+
 </project>
