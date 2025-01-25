@@ -106,10 +106,18 @@ namespace GlassBlower.Scripts.Glass
             _mesh.RecalculateBounds();
         }
 
-        private void OnEnable()
+        public void SetupGlass()
         {
             InitMesh();
             GenerateMesh();
+        }
+
+        private void OnEnable()
+        {
+            if (!Application.isPlaying)
+            {
+                SetupGlass();
+            }
         }
 
         private void OnValidate()

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace GlassBlower.Scripts.Glass
@@ -8,27 +9,36 @@ namespace GlassBlower.Scripts.Glass
     {
         [SerializeField] private float _radius;
         [SerializeField] private GlassRenderer _glass;
+        [SerializeField] private SpriteRenderer _renderer;
 
         [SerializeField] private InputActionReference _positionAction;
         [SerializeField] private InputActionReference _bendAction;
 
-        private void Update()
-        {
-            if (!_bendAction.action.IsPressed())
-            {
-                return;
-            }
+        private bool _isInitialized;
 
-            UpdatePosition();
-            _glass.Bend(transform.position, _radius);
+        public void Setup(GlassRenderer glass)
+        {
+            _glass = glass;
+            _isInitialized = true;
         }
 
-        private void UpdatePosition()
+        public void Stop()
         {
-            Vector2 mousePosition = _positionAction.action.ReadValue<Vector2>();
-            Vector3 position = Camera.main.ScreenToWorldPoint(mousePosition);
+            _isInitialized = false;
+            _glass = null;
+        }
 
-            transform.position = new Vector3(position.x, position.y, transform.position.z);
+        public bool Contains(Vector3 position)
+        {
+            return _renderer.bounds.Contains(new Vector3(position.x, position.y, _renderer.bounds.center.z));
+        }
+
+        private void Update()
+        {
+            if (!_isInitialized)
+                return;
+
+            _glass.Bend(transform.position, _radius);
         }
 
         private void OnDrawGizmos()

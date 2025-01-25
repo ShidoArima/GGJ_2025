@@ -13,9 +13,26 @@ namespace GlassBlower.Scripts.Glass
 
         private float _currentRadius;
         private Vector3 _centerPosition;
+        private bool _isInitialized;
+
+        public void Setup(GlassRenderer glass, Vector3 startPosition)
+        {
+            _glass = glass;
+            transform.position = startPosition;
+            _isInitialized = true;
+        }
+
+        public void Stop()
+        {
+            _isInitialized = false;
+            _glass = null;
+        }
 
         private void Update()
         {
+            if(!_isInitialized)
+                return;
+            
             if (!_extendAction.action.IsPressed())
             {
                 _currentRadius = 0;
