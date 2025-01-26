@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,7 +28,7 @@ namespace GlassBlower.Scripts.UI
 
         private void Exit()
         {
-            Control.ExitGame();
+            Control.ShowIntro().Forget();
         }
     }
 }

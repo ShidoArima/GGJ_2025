@@ -18,7 +18,7 @@ namespace GlassBlower.Scripts
 
         private bool _hasStarted;
         private bool _resultShown;
-        
+
         private void OnEnable()
         {
             _pullController.Pulled += PullControllerOnPulled;
@@ -32,7 +32,6 @@ namespace GlassBlower.Scripts
 
         public async UniTask StartGame()
         {
-            _resultGlass.Initialize();
             _glass.Initialize();
             _pullController.Initialize();
             _benderController.Initialize(_glass);
@@ -42,9 +41,9 @@ namespace GlassBlower.Scripts
             _expander.Initialize(_glass, _blowPosition.transform.position);
             await HideResult();
             await _rodController.Show();
-            _benderController.Show();
+            await _benderController.ShowAsync();
             await _fireController.Show();
-            _pullController.Show();
+            await _pullController.ShowAsync();
             _hasStarted = true;
         }
 
@@ -61,13 +60,13 @@ namespace GlassBlower.Scripts
 
         public async UniTask StopGame()
         {
-            await _rodController.Hide();
+            await _fireController.Hide();
             _benderController.Stop();
             _expander.Stop();
             _fireController.Stop();
-            _benderController.Hide();
-            await _fireController.Hide();
-            _pullController.Hide();
+            await _benderController.HideAsync();
+            await _pullController.HideAsync();
+            await _rodController.Hide();
             _hasStarted = false;
         }
 
@@ -79,6 +78,7 @@ namespace GlassBlower.Scripts
                 return;
             }
 
+            _resultShown = true;
             _resultGlass.Setup(_glass.Mesh);
             await _resultGlass.ShowAsync();
         }
@@ -91,6 +91,7 @@ namespace GlassBlower.Scripts
                 return;
             }
 
+            _resultShown = false;
             await _resultGlass.HideAsync();
         }
 

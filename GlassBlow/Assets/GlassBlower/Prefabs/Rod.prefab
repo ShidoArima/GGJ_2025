@@ -59,8 +59,8 @@ Transform:
   m_GameObject: {fileID: 3748921012090644394}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.5, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 0.5, z: 1}
+  m_LocalPosition: {x: -10.0429, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8783158961367089444}
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 38d5960f42089164eb3951e407346076, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,12 +109,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 99bacd7cba41a4e7aa1b3706f44809bf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bab881d48255df14885cadda541026c5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 2, y: 1}
+  m_DrawMode: 1
+  m_Size: {x: 13.674626, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -168,17 +168,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _length: 10
   _width: 1
-  _minWidth: 0.25
-  _segmentsCount: 100
+  _minWidth: 0.1
+  _segmentsCount: 50
   _meshFilter: {fileID: 8646586306405790723}
   _renderer: {fileID: 6247339117182510592}
   _bendRatio: 1
   _minBend: 0
   _maxBend: 1.5
   _bendForce: 1
-  _smoothFactor: 0
-  _stretchForce: 0
-  _iterations: 0
+  _smoothFactor: 1.04
+  _stretchForce: 0.13
+  _iterations: 2
   _weightDistribution:
     serializedVersion: 2
     m_Curve:
@@ -322,7 +322,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8069966134135526158}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

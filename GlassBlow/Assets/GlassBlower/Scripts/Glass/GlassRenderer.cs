@@ -26,7 +26,6 @@ namespace GlassBlower.Scripts.Glass
         [SerializeField] private AnimationCurve _weightDistribution;
 
         //We need center points to get expand position easier
-        private Vector3[] _centerPoints;
         private float[] _centerWeights;
 
         private Vector3[] _vertices;
@@ -45,6 +44,8 @@ namespace GlassBlower.Scripts.Glass
 
         public void UpdateWeight(float phase)
         {
+            _bendRatio = Mathf.SmoothStep(_minBend, 1, phase * 2);
+            _bendRatio += Mathf.SmoothStep(1, _maxBend, (phase - 0.5f) * 2);
             _bendRatio = Mathf.Lerp(_minBend, _maxBend, phase);
             _renderer.GetPropertyBlock(_propertyBlock);
             _propertyBlock.SetFloat(HeatPhase, phase);
@@ -100,17 +101,18 @@ namespace GlassBlower.Scripts.Glass
             //Get center of expand
             float minSqrMag = Single.PositiveInfinity;
             Vector3 center = Vector3.zero;
-            for (int i = 0; i < _centerPoints.Length; i++)
+            for (int i = 0; i < _vertices.Length / 2; i++)
             {
-                var sqrMag = (localPosition - _centerPoints[i]).sqrMagnitude;
+                int index = i * 2;
+                var sqrMag = (localPosition - _vertices[index]).sqrMagnitude;
                 if (minSqrMag > sqrMag)
                 {
                     minSqrMag = sqrMag;
-                    center = _centerPoints[i];
+                    center = _vertices[index];
                 }
             }
 
-            return transform.TransformPoint(center);
+            return transform.TransformPoint(new Vector3(center.x, 0, 0));
         }
 
         public void Expand(Vector3 position, float radius)
@@ -119,7 +121,7 @@ namespace GlassBlower.Scripts.Glass
             float localRadius = transform.InverseTransformVector(Vector3.one * radius).y;
 
             //Expand
-            for (int i = 0; i < _centerPoints.Length; i++)
+            for (int i = 0; i < _vertices.Length / 2; i++)
             {
                 var index = i * 2;
 
@@ -162,7 +164,7 @@ namespace GlassBlower.Scripts.Glass
 
             for (int i = 0; i < _iterations; i++)
             {
-                for (int j = 0; j < _centerPoints.Length - 1; j++)
+                for (int j = 0; j < _vertices.Length / 2 - 1; j++)
                 {
                     var index = j * 2;
                     Vector3 a = _vertices[index];
@@ -225,7 +227,6 @@ namespace GlassBlower.Scripts.Glass
 
             int pointsCount = _segmentsCount + 2;
 
-            _centerPoints = new Vector3[pointsCount];
             _centerWeights = new float[pointsCount];
             _vertices = new Vector3[pointsCount * 2];
             _uvs = new Vector2[pointsCount * 2];
@@ -240,8 +241,6 @@ namespace GlassBlower.Scripts.Glass
                 //Generate vertices
                 Vector3 horizontal = offset * Vector3.right;
                 Vector3 vertical = Vector3.up * Mathf.Max(_minWidth, _width);
-
-                _centerPoints[i] = horizontal;
 
                 _vertices[index] = horizontal + vertical;
                 _vertices[index + 1] = horizontal - vertical;
@@ -300,7 +299,7 @@ namespace GlassBlower.Scripts.Glass
             return tris;
         }
 
-        public static Mesh CopyMesh(Mesh mesh)
+        private static Mesh CopyMesh(Mesh mesh)
         {
             if (mesh == null)
                 return null;

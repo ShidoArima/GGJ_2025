@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -19,6 +20,7 @@ namespace GlassBlower.Scripts
 
         [SerializeField] private InputActionReference _interactAction;
         [SerializeField] private InputActionReference _positionAction;
+        [SerializeField] private AudioSource _source;
 
         public event Action Pulled;
 
@@ -44,16 +46,22 @@ namespace GlassBlower.Scripts
             transform.position = _startPosition.position;
         }
 
-        public void Show()
+        public async UniTask ShowAsync()
         {
+            _showTween.Stop();
             _showTween = Tween.Position(transform, _startPosition.position, _endPosition.position, _showDuration,
                 Ease.InOutBack);
+
+            await _showTween;
         }
-        
-        public void Hide()
+
+        public async UniTask HideAsync()
         {
+            _showTween.Stop();
             _showTween = Tween.Position(transform, _endPosition.position, _startPosition.position, _showDuration,
                 Ease.InOutBack);
+
+            await _showTween;
         }
 
         private void Cancel(InputAction.CallbackContext obj)
@@ -104,6 +112,7 @@ namespace GlassBlower.Scripts
 
                 if (_pivot.localPosition.y < -_pullDistance)
                 {
+                    _source.Play();
                     Pulled?.Invoke();
                     Cancel();
                 }
@@ -112,7 +121,7 @@ namespace GlassBlower.Scripts
 
         private bool Contains(Vector3 position)
         {
-            return  _pullTrigger.OverlapPoint(position);;
+            return _pullTrigger.OverlapPoint(position);
         }
 
         private void OnDrawGizmos()

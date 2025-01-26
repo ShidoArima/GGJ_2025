@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -27,16 +28,20 @@ namespace GlassBlower.Scripts.Glass
             transform.position = new Vector3(transform.position.x, AnimationDistance, transform.position.z);
         }
 
-        public void Show()
+        public async UniTask ShowAsync()
         {
             _showTween.Stop();
             _showTween = Tween.PositionY(transform, AnimationDistance, _animationEnd.position.y, _showDuration, Ease.InOutBack);
+
+            await _showTween;
         }
 
-        public void Hide()
+        public async UniTask HideAsync()
         {
             _showTween.Stop();
             _showTween = Tween.PositionY(transform, _animationEnd.position.y, AnimationDistance, _showDuration, Ease.InOutBack);
+
+            await _showTween;
         }
 
         public void UpdateBend()

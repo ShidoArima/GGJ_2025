@@ -16,33 +16,43 @@ namespace GlassBlower.Scripts
 
         private void OnEnable()
         {
-            _uiController.GameStarted += StartMinigame;
+            _uiController.GameStarted += StartGame;
             _uiController.GameExit += ExitGame;
             _uiController.GameFinish += OnFinish;
         }
 
-        private void OnFinish()
-        {
-            Stop().Forget();
-        }
 
         private void OnDisable()
         {
-            _uiController.GameStarted -= StartMinigame;
+            _uiController.GameStarted -= StartGame;
             _uiController.GameExit -= ExitGame;
             _uiController.GameFinish += OnFinish;
         }
 
-        private void StartMinigame()
+        private void StartGame()
         {
-            _minigame.StartGame().Forget();
+            StartGameAsync().Forget();
         }
 
-        private async UniTaskVoid Stop()
+        private async UniTaskVoid StartGameAsync()
         {
+            _uiController.DisableInput();
+            await _minigame.StartGame();
+            _uiController.EnableInput();
+        }
+
+        private void OnFinish()
+        {
+            StopGameAsync().Forget();
+        }
+
+        private async UniTaskVoid StopGameAsync()
+        {
+            _uiController.DisableInput();
             await _minigame.StopGame();
             await _minigame.ShowResult();
             await _uiController.ShowResult();
+            _uiController.EnableInput();
         }
 
         private void ExitGame()

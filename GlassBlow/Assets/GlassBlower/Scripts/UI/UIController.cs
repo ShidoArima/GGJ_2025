@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace GlassBlower.Scripts.UI
 {
@@ -10,6 +11,7 @@ namespace GlassBlower.Scripts.UI
         [SerializeField] private GameplayWindow _gameplayWindow;
         [SerializeField] private PauseWindow _pauseWindow;
         [SerializeField] private ResultWindow _resultWindow;
+        [SerializeField] private EventSystem _eventSystem;
 
         public event Action GameStarted;
         public event Action GameFinish;
@@ -17,6 +19,16 @@ namespace GlassBlower.Scripts.UI
 
         private BaseWindow _currentWindow;
         private GameInput _input;
+
+        public void EnableInput()
+        {
+            _eventSystem.enabled = true;
+        }
+
+        public void DisableInput()
+        {
+            _eventSystem.enabled = false;
+        }
 
         public void Initialize()
         {
