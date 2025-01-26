@@ -1,3 +1,4 @@
+using PrimeTween;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,17 +6,35 @@ namespace GlassBlower.Scripts.Glass
 {
     public class BenderController : MonoBehaviour
     {
+        [SerializeField] private Transform _animationEnd;
+        [SerializeField] private float _showDuration;
+
         [SerializeField] private GlassBender _bender;
         [SerializeField] private Bounds _bounds;
         [SerializeField] private Transform _startPosition;
-        
+
         [SerializeField] private InputActionReference _positionAction;
         [SerializeField] private InputActionReference _interactAction;
+
+
+        private Tween _showTween;
 
         public void Initialize(GlassRenderer glass)
         {
             _bender.Setup(glass);
             _bender.transform.position = _startPosition.position;
+        }
+
+        public void Show()
+        {
+            _showTween.Stop();
+            _showTween = Tween.PositionY(transform, 10f, _startPosition.position.y, _showDuration, Ease.InOutBack);
+        }
+
+        public void Hide()
+        {
+            _showTween.Stop();
+            _showTween = Tween.PositionY(transform, _startPosition.position.y, 10, _showDuration, Ease.InOutBack);
         }
 
         public void UpdateBend()
@@ -41,7 +60,7 @@ namespace GlassBlower.Scripts.Glass
                     target = new Vector3(localPosition.x, localPosition.y, target.z);
                 }
             }
-            
+
             target.x = Mathf.Clamp(target.x, _bounds.min.x, _bounds.max.x);
             target.y = Mathf.Clamp(target.y, _bounds.min.y, _bounds.max.y);
 
