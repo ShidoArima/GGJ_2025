@@ -18,23 +18,25 @@ namespace GlassBlower.Scripts.Glass
 
 
         private Tween _showTween;
+        private const float AnimationDistance = 10f;
 
         public void Initialize(GlassRenderer glass)
         {
             _bender.Setup(glass);
             _bender.transform.position = _startPosition.position;
+            transform.position = new Vector3(transform.position.x, AnimationDistance, transform.position.z);
         }
 
         public void Show()
         {
             _showTween.Stop();
-            _showTween = Tween.PositionY(transform, 10f, _startPosition.position.y, _showDuration, Ease.InOutBack);
+            _showTween = Tween.PositionY(transform, AnimationDistance, _animationEnd.position.y, _showDuration, Ease.InOutBack);
         }
 
         public void Hide()
         {
             _showTween.Stop();
-            _showTween = Tween.PositionY(transform, _startPosition.position.y, 10, _showDuration, Ease.InOutBack);
+            _showTween = Tween.PositionY(transform, _animationEnd.position.y, AnimationDistance, _showDuration, Ease.InOutBack);
         }
 
         public void UpdateBend()

@@ -23,7 +23,7 @@ namespace GlassBlower.Scripts
 
         private void OnFinish()
         {
-            Restart().Forget();
+            Stop().Forget();
         }
 
         private void OnDisable()
@@ -38,10 +38,11 @@ namespace GlassBlower.Scripts
             _minigame.StartGame().Forget();
         }
 
-        private async UniTaskVoid Restart()
+        private async UniTaskVoid Stop()
         {
             await _minigame.StopGame();
-            await _minigame.StartGame();
+            await _minigame.ShowResult();
+            await _uiController.ShowResult();
         }
 
         private void ExitGame()

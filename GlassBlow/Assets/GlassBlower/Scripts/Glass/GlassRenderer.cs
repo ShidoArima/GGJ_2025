@@ -39,6 +39,8 @@ namespace GlassBlower.Scripts.Glass
         private bool _hasMesh;
         private MaterialPropertyBlock _propertyBlock;
 
+        public Mesh Mesh => CopyMesh(_mesh);
+
         private static readonly int HeatPhase = Shader.PropertyToID("_HeatPhase");
 
         public void UpdateWeight(float phase)
@@ -62,7 +64,7 @@ namespace GlassBlower.Scripts.Glass
             {
                 var index = i * 2;
 
-                float normalLength = (float)i / (pointsLength - 1);
+                float normalLength = (float) i / (pointsLength - 1);
                 _vertices[index] += stretchForce * (_centerWeights[i] * normalLength);
                 _vertices[index + 1] += stretchForce * (_centerWeights[i] * normalLength);
 
@@ -186,7 +188,7 @@ namespace GlassBlower.Scripts.Glass
             }
         }
 
-        public void SetupGlass()
+        public void Initialize()
         {
             if (_propertyBlock == null)
             {
@@ -202,7 +204,7 @@ namespace GlassBlower.Scripts.Glass
         {
             if (!Application.isPlaying)
             {
-                SetupGlass();
+                Initialize();
             }
         }
 
@@ -296,6 +298,25 @@ namespace GlassBlower.Scripts.Glass
             }
 
             return tris;
+        }
+
+        public static Mesh CopyMesh(Mesh mesh)
+        {
+            if (mesh == null)
+                return null;
+
+            Mesh copy = new Mesh
+            {
+                vertices = mesh.vertices,
+                triangles = mesh.triangles,
+                uv = mesh.uv,
+                normals = mesh.normals,
+                colors = mesh.colors,
+                tangents = mesh.tangents
+            };
+            copy.RecalculateBounds();
+
+            return copy;
         }
     }
 }

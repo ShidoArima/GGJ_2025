@@ -14,7 +14,12 @@ namespace GlassBlower.Scripts
         [SerializeField] private float _hideDuration;
 
         private Tween _tween;
-        
+
+        public void Initialize()
+        {
+            transform.position = _start.position;
+        }
+
         public async UniTask Show()
         {
             _tween.Stop();

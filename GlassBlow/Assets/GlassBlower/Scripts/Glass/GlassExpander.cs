@@ -17,7 +17,7 @@ namespace GlassBlower.Scripts.Glass
         private static readonly int ExpandPosition = Shader.PropertyToID("_ExpandPosition");
         private static readonly int ExpandRadius = Shader.PropertyToID("_ExpandRadius");
 
-        public void Setup(GlassRenderer glass, Vector3 startPosition)
+        public void Initialize(GlassRenderer glass, Vector3 startPosition)
         {
             _glass = glass;
             transform.position = startPosition;

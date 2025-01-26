@@ -9,6 +9,7 @@ namespace GlassBlower.Scripts.UI
         [SerializeField] private StartWindow _startWindow;
         [SerializeField] private GameplayWindow _gameplayWindow;
         [SerializeField] private PauseWindow _pauseWindow;
+        [SerializeField] private ResultWindow _resultWindow;
 
         public event Action GameStarted;
         public event Action GameFinish;
@@ -20,10 +21,11 @@ namespace GlassBlower.Scripts.UI
         public void Initialize()
         {
             _input = new GameInput();
-            
+
             InitializeWindow(_startWindow);
             InitializeWindow(_gameplayWindow);
             InitializeWindow(_pauseWindow);
+            InitializeWindow(_resultWindow);
 
             ShowIntro().Forget();
         }
@@ -49,12 +51,17 @@ namespace GlassBlower.Scripts.UI
             await ChangeWindow(_pauseWindow);
         }
 
+        public async UniTask ShowResult()
+        {
+            await ChangeWindow(_resultWindow);
+        }
+
         public async UniTaskVoid StartGame()
         {
             await ShowGame();
             GameStarted?.Invoke();
         }
-        
+
         public void Finish()
         {
             GameFinish?.Invoke();
@@ -62,7 +69,6 @@ namespace GlassBlower.Scripts.UI
 
         public void ExitGame()
         {
-            Debug.Log("Exit");
             GameExit?.Invoke();
         }
 

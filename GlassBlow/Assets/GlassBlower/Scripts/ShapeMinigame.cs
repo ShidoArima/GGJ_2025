@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 using GlassBlower.Scripts.Glass;
 using UnityEngine;
@@ -13,16 +12,13 @@ namespace GlassBlower.Scripts
         [SerializeField] private GlassExpander _expander;
         [SerializeField] private PullController _pullController;
         [SerializeField] private FireController _fireController;
+        [SerializeField] private SimpleGlass _resultGlass;
 
         [SerializeField] private Transform _blowPosition;
 
         private bool _hasStarted;
-
-        private void Awake()
-        {
-            gameObject.SetActive(false);
-        }
-
+        private bool _resultShown;
+        
         private void OnEnable()
         {
             _pullController.Pulled += PullControllerOnPulled;
@@ -36,15 +32,17 @@ namespace GlassBlower.Scripts
 
         public async UniTask StartGame()
         {
-            gameObject.SetActive(true);
-
-            _glass.SetupGlass();
+            _resultGlass.Initialize();
+            _glass.Initialize();
             _pullController.Initialize();
             _benderController.Initialize(_glass);
             _fireController.Initialize();
+            _rodController.Initialize();
             _glass.UpdateWeight(_fireController.Phase);
-            _expander.Setup(_glass, _blowPosition.transform.position);
+            _expander.Initialize(_glass, _blowPosition.transform.position);
+            await HideResult();
             await _rodController.Show();
+            _benderController.Show();
             await _fireController.Show();
             _pullController.Show();
             _hasStarted = true;
@@ -67,10 +65,33 @@ namespace GlassBlower.Scripts
             _benderController.Stop();
             _expander.Stop();
             _fireController.Stop();
+            _benderController.Hide();
             await _fireController.Hide();
             _pullController.Hide();
-            gameObject.SetActive(false);
             _hasStarted = false;
+        }
+
+        public async UniTask ShowResult()
+        {
+            if (_resultShown)
+            {
+                await UniTask.CompletedTask;
+                return;
+            }
+
+            _resultGlass.Setup(_glass.Mesh);
+            await _resultGlass.ShowAsync();
+        }
+
+        public async UniTask HideResult()
+        {
+            if (!_resultShown)
+            {
+                await UniTask.CompletedTask;
+                return;
+            }
+
+            await _resultGlass.HideAsync();
         }
 
         private void PullControllerOnPulled()
