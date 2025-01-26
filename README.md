@@ -11,4 +11,5 @@ Areas to improve:
 Narative: 
 - Add customers with their needs and behaviors
 - Add types of glass
+- Add showcase shelf of previous crafts
 - Add various game loop constraints
