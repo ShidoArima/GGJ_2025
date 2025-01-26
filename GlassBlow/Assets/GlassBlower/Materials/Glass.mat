@@ -93,11 +93,13 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _ColdColor: {r: 0.8773585, g: 0.84466064, b: 0.7076807, a: 1}
+    - _ColdColor: {r: 0.5580278, g: 0.7169812, b: 0.68745023, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ExpandColor: {r: 1, g: 0.28953755, b: 0, a: 0.5019608}
+    - _ExpandColor: {r: 0.009433985, g: 0.009433985, b: 0.009433985, a: 0.2509804}
+    - _ExtremeColor: {r: 0.9433962, g: 0.4641519, b: 0.16464934, a: 1}
     - _HeatColor: {r: 1, g: 0.51385385, b: 0, a: 1}
-    - _HeatParams: {r: 6.97, g: -3.47, b: 7.4, a: 1.9}
+    - _HeatParams: {r: 15.56, g: -3.03, b: 7.4, a: 1.9}
+    - _HeatParams2: {r: 3.6, g: 1.68, b: 4.97, a: -2.2}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

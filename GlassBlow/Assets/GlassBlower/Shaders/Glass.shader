@@ -9,9 +9,11 @@ Shader "Unlit/Glass"
         _RotationSpeed ("Rotation Speed", Float) = 1
         _ColdColor ("Heat Color", Color) = (1, 1, 1, 1)
         _HeatColor ("Heat Color", Color) = (1, 1, 1, 1)
+        _ExtremeColor ("Extreme Color", Color) = (1, 1, 1, 1)
         _ExpandColor ("Expand Color", Color) = (1, 1, 1, 1)
         _HeatPhase ("Heat Phase", Range(0, 1)) = 0
         _HeatParams ("Heat Params", Vector) = (1, 1, 1, 1)
+        _HeatParams2 ("Heat Params", Vector) = (1, 1, 1, 1)
     }
     SubShader
     {
@@ -61,12 +63,14 @@ Shader "Unlit/Glass"
             float4 _ColdColor;
             float4 _HeatColor;
             float4 _ExpandColor;
+            float4 _ExtremeColor;
 
             //Position and radius
             float3 _ExpandPosition;
             float _ExpandRadius;
 
             float4 _HeatParams;
+            float4 _HeatParams2;
             float _HeatPhase;
 
             v2f vert(appdata v)
@@ -89,8 +93,12 @@ Shader "Unlit/Glass"
                 fixed4 rotation_tex = tex2D(_RotationTex, rotation_uv);
 
                 float noise = snoise(float3(i.uv.xy, 0) * _HeatParams.y + _Time.x * _HeatParams.z) * _HeatParams.w;
-                float multiplier = saturate((1 - abs((i.uv.y - 0.5f) * 2)) * _HeatParams.x + noise);
-                float4 heatColor = lerp(_ColdColor, _HeatColor, multiplier * _HeatPhase);
+                float noise2 = snoise(float3(i.uv.xy, 0) * _HeatParams2.y + _Time.x * _HeatParams2.z) * _HeatParams2.w;
+
+                float heatV = 1 - abs((i.uv.y - 0.5f) * 2);
+                float multiplier = saturate(heatV * _HeatParams.x + noise);
+                float4 extremeColor = lerp(_HeatColor, _ExtremeColor, heatV * _HeatParams2.x + noise2);
+                float4 heatColor = lerp(_ColdColor, extremeColor, multiplier * _HeatPhase);
 
                 float2 diff = i.worldPos - _ExpandPosition;
                 float expandPhase = 1 - smoothstep(0, _ExpandRadius, length(diff));
