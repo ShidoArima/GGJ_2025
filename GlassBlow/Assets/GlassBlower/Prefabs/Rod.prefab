@@ -169,36 +169,16 @@ MonoBehaviour:
   _length: 10
   _width: 1
   _minWidth: 0.25
-  _segmentsCount: 50
+  _segmentsCount: 100
   _meshFilter: {fileID: 8646586306405790723}
   _renderer: {fileID: 6247339117182510592}
-  _bendCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   _bendRatio: 1
   _minBend: 0
   _maxBend: 1.5
+  _bendForce: 1
+  _smoothFactor: 0
+  _stretchForce: 0
+  _iterations: 0
   _weightDistribution:
     serializedVersion: 2
     m_Curve:

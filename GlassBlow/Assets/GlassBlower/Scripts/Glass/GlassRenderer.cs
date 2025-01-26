@@ -14,10 +14,14 @@ namespace GlassBlower.Scripts.Glass
         [SerializeField] private MeshFilter _meshFilter;
         [SerializeField] private Renderer _renderer;
 
-        [SerializeField] private AnimationCurve _bendCurve;
         [SerializeField] private float _bendRatio;
         [SerializeField] private float _minBend;
         [SerializeField] private float _maxBend;
+        [SerializeField] private float _bendForce;
+
+        [SerializeField] private float _smoothFactor = 1;
+        [SerializeField] private float _stretchForce = 0.5f;
+        [SerializeField] private int _iterations;
 
         [SerializeField] private AnimationCurve _weightDistribution;
 
@@ -28,6 +32,8 @@ namespace GlassBlower.Scripts.Glass
         private Vector3[] _vertices;
         private Vector2[] _uvs;
         private int[] _tris;
+
+        private float _restLength;
 
         private Mesh _mesh;
         private bool _hasMesh;
@@ -50,31 +56,31 @@ namespace GlassBlower.Scripts.Glass
 
             var pointsLength = _vertices.Length / 2;
 
+            Vector3 stretchForce = Vector3.right * (_stretchForce * Mathf.Clamp01(_bendRatio) * Time.deltaTime);
+
             for (int i = 0; i < pointsLength; i++)
             {
                 var index = i * 2;
 
-                Vector2 direction = Vector2.zero;
+                float normalLength = (float)i / (pointsLength - 1);
+                _vertices[index] += stretchForce * (_centerWeights[i] * normalLength);
+                _vertices[index + 1] += stretchForce * (_centerWeights[i] * normalLength);
 
-                if (localPosition.y > 0)
-                {
-                    direction = _vertices[index] - localPosition;
-                }
-                else
-                {
-                    direction = _vertices[index + 1] - localPosition;
-                }
+                //Optimization we always effect from the top
+                Vector2 direction = _vertices[index] - localPosition;
 
-                float distance = direction.magnitude;
-
-                if (distance > localRadius)
+                float x = direction.x;
+                if (Mathf.Abs(x) > localRadius)
                     continue;
 
-                float normalImpact = 1 - distance / localRadius;
-                float impact = (distance - localRadius) * _bendRatio * _bendCurve.Evaluate(normalImpact);
-                impact *= _centerWeights[i] * Time.deltaTime;
+                float target = -Mathf.Sqrt(localRadius * localRadius - x * x);
 
-                Vector3 vertexPosition = _vertices[index] + Vector3.up * impact;
+                if (direction.y < target)
+                    continue;
+
+                float impact = _bendForce * _bendRatio * _centerWeights[i] * Time.deltaTime;
+
+                Vector3 vertexPosition = _vertices[index] - Vector3.up * impact;
                 vertexPosition.y = Mathf.Max(_minWidth, vertexPosition.y);
 
                 _vertices[index] = new Vector3(vertexPosition.x, vertexPosition.y, vertexPosition.z);
@@ -115,17 +121,17 @@ namespace GlassBlower.Scripts.Glass
             {
                 var index = i * 2;
 
-                Vector2 direction = _vertices[index] - localPosition;
+                Vector3 direction = _vertices[index] - localPosition;
                 float distance = direction.magnitude;
 
-                if (distance > radius)
+                if (distance > localRadius)
                     continue;
 
-                float normalImpact = 1 - distance / localRadius;
-                float impact = (distance - radius) * _bendRatio;
+                float impact = (distance - localRadius) * _bendRatio * _bendForce;
                 impact *= _centerWeights[i] * Time.deltaTime;
 
-                Vector3 vertexPosition = _vertices[index] - Vector3.up * impact * _bendCurve.Evaluate(normalImpact);
+                Vector3 dirNormal = direction.normalized;
+                Vector3 vertexPosition = _vertices[index] - new Vector3(dirNormal.x, dirNormal.y, 0) * impact;
                 vertexPosition.y = Mathf.Max(_minWidth, vertexPosition.y);
 
                 _vertices[index] = new Vector3(vertexPosition.x, vertexPosition.y, vertexPosition.z);
@@ -134,6 +140,50 @@ namespace GlassBlower.Scripts.Glass
 
             _mesh.vertices = _vertices;
             _mesh.RecalculateBounds();
+        }
+
+        Vector3 GetDelta(Vector3 a, Vector3 b)
+        {
+            Vector3 delta = a - b;
+            float current = delta.magnitude;
+            if (current == 0)
+                return Vector3.zero;
+
+            float f = (current - _restLength * _smoothFactor) / current;
+
+            return f * delta;
+        }
+
+        public void Smooth()
+        {
+            float bendRatio = Mathf.Clamp01(_bendRatio) / _iterations;
+
+            for (int i = 0; i < _iterations; i++)
+            {
+                for (int j = 0; j < _centerPoints.Length - 1; j++)
+                {
+                    var index = j * 2;
+                    Vector3 a = _vertices[index];
+                    Vector3 b = _vertices[index + 2];
+                    float aWeight = _centerWeights[j];
+                    float bWeight = _centerWeights[j + 1];
+                    float weightSum = aWeight + bWeight;
+
+                    if (weightSum == 0)
+                        continue;
+
+                    Vector3 delta = GetDelta(a, b) * bendRatio;
+
+                    a -= (aWeight / weightSum) * delta;
+                    b += (bWeight / weightSum) * delta;
+
+                    _vertices[index] = a;
+                    _vertices[index + 2] = b;
+
+                    _vertices[index + 1] = new Vector3(a.x, -a.y, a.z);
+                    _vertices[index + 3] = new Vector3(b.x, -b.y, b.z);
+                }
+            }
         }
 
         public void SetupGlass()
@@ -178,7 +228,7 @@ namespace GlassBlower.Scripts.Glass
             _vertices = new Vector3[pointsCount * 2];
             _uvs = new Vector2[pointsCount * 2];
 
-            float delta = _length / (pointsCount - 1);
+            _restLength = _length / (pointsCount - 1);
             float offset = 0;
 
             for (int i = 0; i < pointsCount; i++)
@@ -201,7 +251,7 @@ namespace GlassBlower.Scripts.Glass
 
                 _centerWeights[i] = _weightDistribution.Evaluate(normalDistance);
 
-                offset += delta;
+                offset += _restLength;
             }
 
             var tris = GetTris(pointsCount, 0);

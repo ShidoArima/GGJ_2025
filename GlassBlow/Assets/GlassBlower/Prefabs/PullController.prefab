@@ -80,7 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startPosition: {fileID: 0}
   _endPosition: {fileID: 0}
-  _showDuration: 5
+  _showDuration: 1
   _pivot: {fileID: 8062672547267356241}
   _pullTrigger: {fileID: 4156383629373819418}
   _pullDistance: 2

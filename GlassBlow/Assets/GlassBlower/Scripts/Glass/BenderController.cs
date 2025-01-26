@@ -38,7 +38,7 @@ namespace GlassBlower.Scripts.Glass
                 if (_bender.Contains(position))
                 {
                     var localPosition = transform.InverseTransformPoint(position);
-                    target = new Vector3(localPosition.x, localPosition.y, target.x);
+                    target = new Vector3(localPosition.x, localPosition.y, target.z);
                 }
             }
             

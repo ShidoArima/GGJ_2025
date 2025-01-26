@@ -58,6 +58,7 @@ namespace GlassBlower.Scripts
             _expander.UpdateBend();
             _benderController.UpdateBend();
             _glass.UpdateWeight(_fireController.Phase);
+            _glass.Smooth();
         }
 
         public async UniTask StopGame()

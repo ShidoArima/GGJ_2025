@@ -55,7 +55,7 @@ namespace GlassBlower.Scripts.UI
             GameStarted?.Invoke();
         }
         
-        public async UniTaskVoid Finish()
+        public void Finish()
         {
             GameFinish?.Invoke();
         }

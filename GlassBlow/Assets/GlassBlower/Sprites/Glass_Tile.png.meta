@@ -1,0 +1,793 @@
+fileFormatVersion: 2
+guid: 0f50656d9d083c04b8bb4c50515c0623
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6278493701984440418
+    second: Glass_Tile_0
+  - first:
+      213: 4805468652387751262
+    second: Glass_Tile_1
+  - first:
+      213: -4091691033022899436
+    second: Glass_Tile_2
+  - first:
+      213: -3059444471986070090
+    second: Glass_Tile_3
+  - first:
+      213: 7581585597000528703
+    second: Glass_Tile_4
+  - first:
+      213: -4359167792506588762
+    second: Glass_Tile_5
+  - first:
+      213: 6543642464567644000
+    second: Glass_Tile_6
+  - first:
+      213: -868432279558553552
+    second: Glass_Tile_7
+  - first:
+      213: -4036600526305161882
+    second: Glass_Tile_8
+  - first:
+      213: 4451105128892560785
+    second: Glass_Tile_9
+  - first:
+      213: -5392502926523959976
+    second: Glass_Tile_10
+  - first:
+      213: -991997120774888388
+    second: Glass_Tile_11
+  - first:
+      213: 9011082712953265197
+    second: Glass_Tile_12
+  - first:
+      213: 632834143270422874
+    second: Glass_Tile_13
+  - first:
+      213: 2380514109693697887
+    second: Glass_Tile_14
+  - first:
+      213: -6302362139495488309
+    second: Glass_Tile_15
+  - first:
+      213: 5016103048645556015
+    second: Glass_Tile_16
+  - first:
+      213: -5389545552247169769
+    second: Glass_Tile_17
+  - first:
+      213: -3930887245806903129
+    second: Glass_Tile_18
+  - first:
+      213: 2015151778906459857
+    second: Glass_Tile_19
+  - first:
+      213: -8246927718077437885
+    second: Glass_Tile_20
+  - first:
+      213: 8600905535486129418
+    second: Glass_Tile_21
+  - first:
+      213: 3401806971268399277
+    second: Glass_Tile_22
+  - first:
+      213: 2000975013003953936
+    second: Glass_Tile_23
+  - first:
+      213: 111941993753158727
+    second: Glass_Tile_24
+  - first:
+      213: 5138052330549548456
+    second: Glass_Tile_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 512
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Glass_Tile_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 362
+        width: 160
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9fa0b03e3f4ed8a0800000000000000
+      internalID: -6278493701984440418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_1
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 406
+        width: 156
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e55d8d4674470b240800000000000000
+      internalID: 4805468652387751262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_2
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 445
+        width: 37
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41bd4062fa46737c0800000000000000
+      internalID: -4091691033022899436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_3
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 453
+        width: 40
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bddc3d567baa85d0800000000000000
+      internalID: -3059444471986070090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_4
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 479
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f333f677ee3373960800000000000000
+      internalID: 7581585597000528703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_5
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 388
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a132531dff1183c0800000000000000
+      internalID: -4359167792506588762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_6
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 385
+        width: 55
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06f47bdd620bfca50800000000000000
+      internalID: 6543642464567644000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_7
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 367
+        width: 76
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0300e616175b2f3f0800000000000000
+      internalID: -868432279558553552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_8
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 360
+        width: 21
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66d0d69453d1bf7c0800000000000000
+      internalID: -4036600526305161882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_9
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 343
+        width: 38
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1957f81288085cd30800000000000000
+      internalID: 4451105128892560785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 246
+        width: 86
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 855f846b82bf925b0800000000000000
+      internalID: -5392502926523959976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_11
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 312
+        width: 41
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c34a00edfd7bb32f0800000000000000
+      internalID: -991997120774888388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_12
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 328
+        width: 16
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2c1e331cfbcd0d70800000000000000
+      internalID: 9011082712953265197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_13
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 253
+        width: 78
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a594f57ec4748c800800000000000000
+      internalID: 632834143270422874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 122
+        width: 48
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5f191368f8490120800000000000000
+      internalID: 2380514109693697887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_15
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 113
+        width: 349
+        height: 204
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc4208586038988a0800000000000000
+      internalID: -6302362139495488309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_16
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 148
+        width: 26
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f27b5437527cc9540800000000000000
+      internalID: 5016103048645556015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_17
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 75
+        width: 40
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71d558110ec7435b0800000000000000
+      internalID: -5389545552247169769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_18
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 0
+        width: 80
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a0e09d60eea279c0800000000000000
+      internalID: -3930887245806903129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_19
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 43
+        width: 44
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1de473ebdd147fb10800000000000000
+      internalID: 2015151778906459857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_20
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 58
+        width: 12
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 348ebab3fe60d8d80800000000000000
+      internalID: -8246927718077437885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 45
+        width: 14
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a057755d30e8c5770800000000000000
+      internalID: 8600905535486129418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_22
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 9
+        width: 48
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da086e4ba65a53f20800000000000000
+      internalID: 3401806971268399277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_23
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 0
+        width: 81
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01788863c24e4cb10800000000000000
+      internalID: 2000975013003953936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_24
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 0
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7442b1576a2bd8100800000000000000
+      internalID: 111941993753158727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Glass_Tile_25
+      rect:
+        serializedVersion: 2
+        x: 465
+        y: 0
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a516cf3f570e4740800000000000000
+      internalID: 5138052330549548456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Glass_Tile_0: -6278493701984440418
+      Glass_Tile_1: 4805468652387751262
+      Glass_Tile_10: -5392502926523959976
+      Glass_Tile_11: -991997120774888388
+      Glass_Tile_12: 9011082712953265197
+      Glass_Tile_13: 632834143270422874
+      Glass_Tile_14: 2380514109693697887
+      Glass_Tile_15: -6302362139495488309
+      Glass_Tile_16: 5016103048645556015
+      Glass_Tile_17: -5389545552247169769
+      Glass_Tile_18: -3930887245806903129
+      Glass_Tile_19: 2015151778906459857
+      Glass_Tile_2: -4091691033022899436
+      Glass_Tile_20: -8246927718077437885
+      Glass_Tile_21: 8600905535486129418
+      Glass_Tile_22: 3401806971268399277
+      Glass_Tile_23: 2000975013003953936
+      Glass_Tile_24: 111941993753158727
+      Glass_Tile_25: 5138052330549548456
+      Glass_Tile_3: -3059444471986070090
+      Glass_Tile_4: 7581585597000528703
+      Glass_Tile_5: -4359167792506588762
+      Glass_Tile_6: 6543642464567644000
+      Glass_Tile_7: -868432279558553552
+      Glass_Tile_8: -4036600526305161882
+      Glass_Tile_9: 4451105128892560785
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

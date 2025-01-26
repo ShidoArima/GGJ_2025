@@ -65,7 +65,7 @@ Shader "Unlit/Glass"
             //Position and radius
             float3 _ExpandPosition;
             float _ExpandRadius;
-            
+
             float4 _HeatParams;
             float _HeatPhase;
 
@@ -85,8 +85,8 @@ Shader "Unlit/Glass"
                 fixed4 main_tex = tex2D(_MainTex, i.uv);
                 fixed mask = tex2D(_Mask, i.uv).a;
 
-                float2 rotation_uv = float2(i.uv.x, i.uv.y + sin(_Time.y) * _RotationSpeed);
-                fixed4 rotation_tex = tex2D(_MainTex, rotation_uv);
+                float2 rotation_uv = float2(i.uv.x, i.uv.y + _Time.y * _RotationSpeed);
+                fixed4 rotation_tex = tex2D(_RotationTex, rotation_uv);
 
                 float noise = snoise(float3(i.uv.xy, 0) * _HeatParams.y + _Time.x * _HeatParams.z) * _HeatParams.w;
                 float multiplier = saturate((1 - abs((i.uv.y - 0.5f) * 2)) * _HeatParams.x + noise);
@@ -96,10 +96,10 @@ Shader "Unlit/Glass"
                 float expandPhase = 1 - smoothstep(0, _ExpandRadius, length(diff));
                 float4 expandColor = lerp(float4(0, 0, 0, 1), _ExpandColor, expandPhase);
 
-                fixed4 color = main_tex * rotation_tex;
+                fixed4 color = main_tex;
                 color.rgb *= heatColor.rgb + expandColor.rgb;
                 color = saturate(color);
-                color *= i.color;
+                color *= i.color + rotation_tex;
                 color.a = lerp(color.a, 1, _HeatPhase) * mask * expandColor.a;
                 color.rgb *= color.a;
                 return color;

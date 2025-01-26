@@ -29,7 +29,7 @@ namespace GlassBlower.Scripts.UI
 
         private void Finish()
         {
-            Control.Finish().Forget();
+            Control.Finish();
         }
     }
 }
