@@ -14,6 +14,8 @@ namespace GlassBlower.Scripts.Glass
         private float _currentRadius;
         private Vector3 _centerPosition;
         private bool _isInitialized;
+        private static readonly int ExpandPosition = Shader.PropertyToID("_ExpandPosition");
+        private static readonly int ExpandRadius = Shader.PropertyToID("_ExpandRadius");
 
         public void Setup(GlassRenderer glass, Vector3 startPosition)
         {
@@ -28,14 +30,16 @@ namespace GlassBlower.Scripts.Glass
             _glass = null;
         }
 
-        private void Update()
+        public void UpdateBend()
         {
-            if(!_isInitialized)
+            if (!_isInitialized)
                 return;
             
+            Shader.SetGlobalFloat(ExpandRadius, _currentRadius);
+
             if (!_extendAction.action.IsPressed())
             {
-                _currentRadius = 0;
+                _currentRadius = Mathf.Max(0, _currentRadius - _force * Time.deltaTime);
                 return;
             }
 
@@ -46,6 +50,9 @@ namespace GlassBlower.Scripts.Glass
             _glass.Expand(_centerPosition, _currentRadius);
             _currentRadius += _force * Time.deltaTime;
             _currentRadius = Mathf.Min(_currentRadius, _maxExpandRadius);
+
+            Shader.SetGlobalVector(ExpandPosition, _centerPosition);
+            
         }
 
         private void UpdatePosition()

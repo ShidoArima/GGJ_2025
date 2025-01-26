@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +16,11 @@ namespace GlassBlower.Scripts.Glass
         {
             _bender.Setup(glass);
             _bender.transform.position = _startPosition.position;
+        }
+
+        public void UpdateBend()
+        {
+            _bender.UpdateBend();
         }
 
         public void Stop()

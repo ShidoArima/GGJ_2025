@@ -3,6 +3,15 @@ Shader "Unlit/Glass"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _RotationTex ("Rotation Texture", 2D) = "white" {}
+        _Mask ("Mask", 2D) = "white" {}
+
+        _RotationSpeed ("Rotation Speed", Float) = 1
+        _ColdColor ("Heat Color", Color) = (1, 1, 1, 1)
+        _HeatColor ("Heat Color", Color) = (1, 1, 1, 1)
+        _ExpandColor ("Expand Color", Color) = (1, 1, 1, 1)
+        _HeatPhase ("Heat Phase", Range(0, 1)) = 0
+        _HeatParams ("Heat Params", Vector) = (1, 1, 1, 1)
     }
     SubShader
     {
@@ -26,6 +35,7 @@ Shader "Unlit/Glass"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+            #include "Simplex.cginc"
 
             struct appdata
             {
@@ -39,27 +49,60 @@ Shader "Unlit/Glass"
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 float4 color : TEXCOORD1;
+                float4 worldPos : TEXCOORD2;
             };
 
             sampler2D _MainTex;
-            float4 _MainTex_ST;
+            sampler2D _RotationTex;
+            sampler2D _Mask;
 
-            v2f vert (appdata v)
+            float4 _MainTex_ST;
+            float _RotationSpeed;
+            float4 _ColdColor;
+            float4 _HeatColor;
+            float4 _ExpandColor;
+
+            //Position and radius
+            float3 _ExpandPosition;
+            float _ExpandRadius;
+            
+            float4 _HeatParams;
+            float _HeatPhase;
+
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.color = v.color;
+                o.worldPos = mul(unity_ObjectToWorld, float4(v.vertex.xyz, 1));
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
-                col *= i.color;
-                col.rgb *= col.a;
-                return col;
+                fixed4 main_tex = tex2D(_MainTex, i.uv);
+                fixed mask = tex2D(_Mask, i.uv).a;
+
+                float2 rotation_uv = float2(i.uv.x, i.uv.y + sin(_Time.y) * _RotationSpeed);
+                fixed4 rotation_tex = tex2D(_MainTex, rotation_uv);
+
+                float noise = snoise(float3(i.uv.xy, 0) * _HeatParams.y + _Time.x * _HeatParams.z) * _HeatParams.w;
+                float multiplier = saturate((1 - abs((i.uv.y - 0.5f) * 2)) * _HeatParams.x + noise);
+                float4 heatColor = lerp(_ColdColor, _HeatColor, multiplier * _HeatPhase);
+
+                float2 diff = i.worldPos - _ExpandPosition;
+                float expandPhase = 1 - smoothstep(0, _ExpandRadius, length(diff));
+                float4 expandColor = lerp(float4(0, 0, 0, 1), _ExpandColor, expandPhase);
+
+                fixed4 color = main_tex * rotation_tex;
+                color.rgb *= heatColor.rgb + expandColor.rgb;
+                color = saturate(color);
+                color *= i.color;
+                color.a = lerp(color.a, 1, _HeatPhase) * mask * expandColor.a;
+                color.rgb *= color.a;
+                return color;
             }
             ENDCG
         }

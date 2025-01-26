@@ -11,6 +11,7 @@ namespace GlassBlower.Scripts.UI
         [SerializeField] private PauseWindow _pauseWindow;
 
         public event Action GameStarted;
+        public event Action GameFinish;
         public event Action GameExit;
 
         private BaseWindow _currentWindow;
@@ -53,6 +54,11 @@ namespace GlassBlower.Scripts.UI
             await ShowGame();
             GameStarted?.Invoke();
         }
+        
+        public async UniTaskVoid Finish()
+        {
+            GameFinish?.Invoke();
+        }
 
         public void ExitGame()
         {
@@ -69,8 +75,6 @@ namespace GlassBlower.Scripts.UI
             _currentWindow = newWindow;
 
             await newWindow.Show(oldWindow);
-            
-            //_input.UI.Enable();
         }
     }
 }

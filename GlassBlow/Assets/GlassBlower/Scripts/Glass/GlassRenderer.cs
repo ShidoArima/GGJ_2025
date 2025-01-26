@@ -12,9 +12,12 @@ namespace GlassBlower.Scripts.Glass
         [SerializeField] private float _minWidth;
         [SerializeField] private int _segmentsCount;
         [SerializeField] private MeshFilter _meshFilter;
+        [SerializeField] private Renderer _renderer;
 
         [SerializeField] private AnimationCurve _bendCurve;
-        [SerializeField] [Range(0, 1)] private float _bendRatio;
+        [SerializeField] private float _bendRatio;
+        [SerializeField] private float _minBend;
+        [SerializeField] private float _maxBend;
 
         //We need center points to get expand position easier
         private Vector3[] _centerPoints;
@@ -25,6 +28,17 @@ namespace GlassBlower.Scripts.Glass
 
         private Mesh _mesh;
         private bool _hasMesh;
+        private MaterialPropertyBlock _propertyBlock;
+
+        private static readonly int HeatPhase = Shader.PropertyToID("_HeatPhase");
+
+        public void UpdateWeight(float phase)
+        {
+            _bendRatio = Mathf.Lerp(_minBend, _maxBend, phase);
+            _renderer.GetPropertyBlock(_propertyBlock);
+            _propertyBlock.SetFloat(HeatPhase, phase);
+            _renderer.SetPropertyBlock(_propertyBlock);
+        }
 
         public void Bend(Vector3 position, float radius)
         {
@@ -37,9 +51,18 @@ namespace GlassBlower.Scripts.Glass
             {
                 var index = i * 2;
 
-                Vector2 upDir = _vertices[index] - localPosition;
-                Vector2 downDir = _vertices[index + 1] - localPosition;
-                float distance = Mathf.Sqrt(Mathf.Min(upDir.sqrMagnitude, downDir.sqrMagnitude));
+                Vector2 direction = Vector2.zero;
+
+                if (localPosition.y > 0)
+                {
+                    direction = _vertices[index] - localPosition;
+                }
+                else
+                {
+                    direction = _vertices[index + 1] - localPosition;
+                }
+
+                float distance = direction.magnitude;
 
                 if (distance > localRadius)
                     continue;
@@ -108,8 +131,14 @@ namespace GlassBlower.Scripts.Glass
 
         public void SetupGlass()
         {
+            if (_propertyBlock == null)
+            {
+                _propertyBlock = new MaterialPropertyBlock();
+            }
+
             InitMesh();
             GenerateMesh();
+            _bendRatio = 1;
         }
 
         private void OnEnable()

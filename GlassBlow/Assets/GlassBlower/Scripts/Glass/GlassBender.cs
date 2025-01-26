@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace GlassBlower.Scripts.Glass
@@ -22,6 +21,14 @@ namespace GlassBlower.Scripts.Glass
             _isInitialized = true;
         }
 
+        public void UpdateBend()
+        {
+            if (!_isInitialized)
+                return;
+
+            _glass.Bend(transform.position, _radius);
+        }
+
         public void Stop()
         {
             _isInitialized = false;
@@ -31,14 +38,6 @@ namespace GlassBlower.Scripts.Glass
         public bool Contains(Vector3 position)
         {
             return _renderer.bounds.Contains(new Vector3(position.x, position.y, _renderer.bounds.center.z));
-        }
-
-        private void Update()
-        {
-            if (!_isInitialized)
-                return;
-
-            _glass.Bend(transform.position, _radius);
         }
 
         private void OnDrawGizmos()
