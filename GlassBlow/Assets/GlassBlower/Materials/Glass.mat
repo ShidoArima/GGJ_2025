@@ -96,7 +96,7 @@ Material:
     - _ColdColor: {r: 0.8773585, g: 0.84466064, b: 0.7076807, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ExpandColor: {r: 0.8490566, g: 0, b: 0.024939079, a: 0.5019608}
+    - _ExpandColor: {r: 1, g: 0.28953755, b: 0, a: 0.5019608}
     - _HeatColor: {r: 1, g: 0.51385385, b: 0, a: 1}
     - _HeatParams: {r: 6.97, g: -3.47, b: 7.4, a: 1.9}
   m_BuildTextureStacks: []

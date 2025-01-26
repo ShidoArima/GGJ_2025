@@ -19,8 +19,11 @@ namespace GlassBlower.Scripts.Glass
         [SerializeField] private float _minBend;
         [SerializeField] private float _maxBend;
 
+        [SerializeField] private AnimationCurve _weightDistribution;
+
         //We need center points to get expand position easier
         private Vector3[] _centerPoints;
+        private float[] _centerWeights;
 
         private Vector3[] _vertices;
         private Vector2[] _uvs;
@@ -69,6 +72,8 @@ namespace GlassBlower.Scripts.Glass
 
                 float normalImpact = 1 - distance / localRadius;
                 float impact = (distance - localRadius) * _bendRatio * _bendCurve.Evaluate(normalImpact);
+                impact *= _centerWeights[i] * Time.deltaTime;
+
                 Vector3 vertexPosition = _vertices[index] + Vector3.up * impact;
                 vertexPosition.y = Mathf.Max(_minWidth, vertexPosition.y);
 
@@ -118,6 +123,8 @@ namespace GlassBlower.Scripts.Glass
 
                 float normalImpact = 1 - distance / localRadius;
                 float impact = (distance - radius) * _bendRatio;
+                impact *= _centerWeights[i] * Time.deltaTime;
+
                 Vector3 vertexPosition = _vertices[index] - Vector3.up * impact * _bendCurve.Evaluate(normalImpact);
                 vertexPosition.y = Mathf.Max(_minWidth, vertexPosition.y);
 
@@ -167,6 +174,7 @@ namespace GlassBlower.Scripts.Glass
             int pointsCount = _segmentsCount + 2;
 
             _centerPoints = new Vector3[pointsCount];
+            _centerWeights = new float[pointsCount];
             _vertices = new Vector3[pointsCount * 2];
             _uvs = new Vector2[pointsCount * 2];
 
@@ -182,6 +190,7 @@ namespace GlassBlower.Scripts.Glass
                 Vector3 vertical = Vector3.up * Mathf.Max(_minWidth, _width);
 
                 _centerPoints[i] = horizontal;
+
                 _vertices[index] = horizontal + vertical;
                 _vertices[index + 1] = horizontal - vertical;
 
@@ -189,6 +198,8 @@ namespace GlassBlower.Scripts.Glass
                 float normalDistance = offset / _length;
                 _uvs[index] = new Vector2(normalDistance, 1);
                 _uvs[index + 1] = new Vector2(normalDistance, 0);
+
+                _centerWeights[i] = _weightDistribution.Evaluate(normalDistance);
 
                 offset += delta;
             }
