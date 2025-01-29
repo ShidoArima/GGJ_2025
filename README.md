@@ -7,8 +7,9 @@ Areas to improve:
 - Add proper StatMachine to control game state and UI
 - Have a proper separation for scenes
 - Remove tons of duplications and dependencies
+- Propagate cancelation to tasks
 
-Narative: 
+Narrative: 
 - Add customers with their needs and behaviors
 - Add types of glass
 - Add showcase shelf of previous crafts
